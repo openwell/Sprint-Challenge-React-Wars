@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import './App.css';
-import StarWarList from './components/StarWarList'
+import React, { Component } from "react";
+import "./App.scss";
+import StarWarList from "./components/StarWarList";
+import Pagination from "./components/pagination";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      starwarsChars: []
+      starwarsChars: [],
     };
   }
 
   componentDidMount() {
-    this.getCharacters('https://swapi.co/api/people/');
+    this.getCharacters("https://swapi.co/api/people/");
   }
 
   getCharacters = URL => {
@@ -34,7 +35,8 @@ class App extends Component {
     return (
       <div className="App">
         <h1 className="Header">React Wars</h1>
-        <StarWarList list={this.state.starwarsChars}/>
+        <StarWarList list={this.state.starwarsChars} />
+        <Pagination  name={'< Next'}/> <Pagination  name={'Prev >'}/>
       </div>
     );
   }
