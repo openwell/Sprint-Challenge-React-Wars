@@ -8,6 +8,8 @@ class App extends Component {
     super();
     this.state = {
       starwarsChars: [],
+      next: {},
+      prev: {}
     };
   }
 
@@ -24,11 +26,29 @@ class App extends Component {
         return res.json();
       })
       .then(data => {
-        this.setState({ starwarsChars: data.results });
+        this.setState({
+          starwarsChars: data.results,
+          next: {
+            data: data.next,
+            disabled: (data.next === null) ? true : false
+          },
+          prev: {
+            data: data.previous,
+            disabled: (data.previous === null) ? true : false
+          }
+        });
       })
       .catch(err => {
         throw new Error(err);
       });
+  };
+  paginationHandler = id => {
+    if (id === "next" && this.state.next.data !== null) {
+      this.getCharacters(this.state.next.data);
+    }
+    if (id === "prev" && this.state.prev.data !== null) {
+      this.getCharacters(this.state.prev.data);
+    }
   };
 
   render() {
@@ -36,7 +56,18 @@ class App extends Component {
       <div className="App">
         <h1 className="Header">React Wars</h1>
         <StarWarList list={this.state.starwarsChars} />
-        <Pagination  name={'< Next'}/> <Pagination  name={'Prev >'}/>
+        <Pagination
+          click={this.paginationHandler}
+          disabled={this.state.prev['disabled']}
+          name={"< Prev"}
+          id={"prev"}
+        />
+        <Pagination
+          click={this.paginationHandler}
+          disabled={this.state.next['disabled']}
+          name={"Next >"}
+          id={"next"}
+        />
       </div>
     );
   }

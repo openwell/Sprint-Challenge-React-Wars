@@ -4,7 +4,13 @@ import "./StarWars.scss";
 const pagination = props => {
   return (
     <>
-      <button className={'Pagination'} disabled={props.disabled}>{props.name}</button>
+      <button
+        className={"Pagination"}
+        disabled={props.disabled}
+        onClick={()=>props.click(props.id)}
+      >
+        {props.name}
+      </button>
     </>
   );
 };
